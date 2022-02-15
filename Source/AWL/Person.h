@@ -48,9 +48,6 @@ public:
 	
 	UPROPERTY(EditInstanceOnly)
 	int16 Birthday;
-
-	UPROPERTY(EditInstanceOnly)
-	UWorld* MyWorld;
 };
 
 APerson* GeneratePerson(UWorld* World, FAWLRand& Rng, const FPersonParams& Params = DefaultPersonParams);

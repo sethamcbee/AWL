@@ -24,7 +24,6 @@ void APerson::BeginPlay()
 	Super::BeginPlay();
 	
 	SetActorLabel(TEXT("Person") + Name);
-	MyWorld = GetWorld();
 }
 
 
