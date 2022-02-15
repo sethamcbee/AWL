@@ -81,7 +81,7 @@ APerson* GeneratePerson(UWorld* World, FAWLRand& Rng, const FPersonParams& Param
 	}
 	else
 	{
-		Person->AgeYears = Rng(0, 18);
+		Person->AgeYears = Rng(0, DeathAgeYears - 1);
 	}
 
 	Person->LifeStage = YearsToLifeStage(Person->AgeYears);
