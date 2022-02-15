@@ -56,14 +56,14 @@ ALot* GenerateLot(UWorld* World, FAWLRand& Rng)
 		if (Rng.Try(0.3))
 		{
 			// Generate single.
-			APerson* Single = GeneratePerson(World, Rng);
+			APerson* Single = GenerateAdult(World, Rng);
 			Single->Home = Lot;
 			Lot->Occupants.Add(Single);
 		}
 		else if (Rng.Try(0.35))
 		{
 			// Generate couple.
-			APerson* Spouse0 = GeneratePerson(World, Rng);
+			APerson* Spouse0 = GenerateAdult(World, Rng);
 			Spouse0->Home = Lot;
 			Lot->Occupants.Add(Spouse0);
 			APerson* Spouse1 = GenerateSpouse(World, Rng, Spouse0);
@@ -73,7 +73,7 @@ ALot* GenerateLot(UWorld* World, FAWLRand& Rng)
 		else if (Rng.Try(0.35))
 		{
 			// Generate family.
-			APerson* Spouse0 = GeneratePerson(World, Rng);
+			APerson* Spouse0 = GenerateAdult(World, Rng);
 			Spouse0->Home = Lot;
 			Lot->Occupants.Add(Spouse0);
 			APerson* Spouse1 = GenerateSpouse(World, Rng, Spouse0);

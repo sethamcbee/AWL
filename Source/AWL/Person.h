@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Date.h"
 #include "PersonParams.h"
 #include "Gender.h"
 
@@ -11,8 +12,6 @@
 
 class ALot;
 class FAWLRand;
-
-extern FPersonParams DefaultPersonParams;
 
 UCLASS()
 class AWL_API APerson : public AActor
@@ -45,6 +44,9 @@ public:
 	
 	UPROPERTY(EditInstanceOnly)
 	int8 AgeYears;
+
+	UPROPERTY(EditInstanceOnly)
+	ELifeStage LifeStage;
 	
 	UPROPERTY(EditInstanceOnly)
 	int16 Birthday;

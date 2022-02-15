@@ -9,13 +9,13 @@
 UENUM()
 enum class ELifeStage : uint8
 {
-	BABY UMETA(DisplayName = "Baby"),
-	TODDLER UMETA(DisplayName = "Toddler"),
-	CHILD UMETA(DisplayName = "Child"),
-	TEEN UMETA(DisplayName = "Teen"),
-	ADULT UMETA(DisplayName = "Adult"),
-	SENIOR UMETA(DisplayName = "Senior"),
-	DEAD UMETA(DisplayName = "Dead")
+	Baby UMETA(DisplayName = "Baby"),
+	Toddler UMETA(DisplayName = "Toddler"),
+	Child UMETA(DisplayName = "Child"),
+	Teen UMETA(DisplayName = "Teen"),
+	Adult UMETA(DisplayName = "Adult"),
+	Senior UMETA(DisplayName = "Senior"),
+	Dead UMETA(DisplayName = "Dead")
 };
 
  // Time and date rates.
@@ -79,5 +79,6 @@ int RandTeenAge(FAWLRand& Rng);
 int RandAdultAge(FAWLRand& Rng);
 int RandSeniorAge(FAWLRand& Rng);
 
+ELifeStage YearsToLifeStage(int Years);
 int RandBirthday(FAWLRand& Rng);
 FString BirthdayToString(int Birthday);

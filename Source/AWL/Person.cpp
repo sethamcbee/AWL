@@ -84,6 +84,8 @@ APerson* GeneratePerson(UWorld* World, FAWLRand& Rng, const FPersonParams& Param
 		Person->AgeYears = Rng(0, 18);
 	}
 
+	Person->LifeStage = YearsToLifeStage(Person->AgeYears);
+
 	Person->FinishSpawning(Transform);
 	return Person;
 }

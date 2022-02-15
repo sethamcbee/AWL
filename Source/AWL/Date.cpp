@@ -158,6 +158,37 @@ int RandSeniorAge(FAWLRand& Rng)
 }
 
 
+ELifeStage YearsToLifeStage(int Years)
+{
+    ELifeStage LifeStage = ELifeStage::Baby;
+    if (Years >= ToddlerAgeYears)
+    {
+        LifeStage = ELifeStage::Toddler;
+    }
+    if (Years >= ChildAgeYears)
+    {
+        LifeStage = ELifeStage::Child;
+    }
+    if (Years >= TeenAgeYears)
+    {
+        LifeStage = ELifeStage::Teen;
+    }
+    if (Years >= AdultAgeYears)
+    {
+        LifeStage = ELifeStage::Adult;
+    }
+    if (Years >= SeniorAgeYears)
+    {
+        LifeStage = ELifeStage::Senior;
+    }
+    if (Years >= DeathAgeYears)
+    {
+        LifeStage = ELifeStage::Dead;
+    }
+    return LifeStage;
+}
+
+
 int RandBirthday(FAWLRand& Rng)
 {
     int Min = 0;
