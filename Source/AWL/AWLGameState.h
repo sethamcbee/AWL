@@ -34,23 +34,23 @@ public:
 	FString RandMaleName(FAWLRand& Rng);
 	FString RandFemaleName(FAWLRand& Rng);
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	TSet<FString> MaleNames;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	TSet<FString> FemaleNames;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	bool bTimeTick = false;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	UTimeManager* TimeManager;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	uint64 WorldSeed;
 
 	FAWLRand WorldRand;
 	
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	TArray<ALot*> Lots;
 };

@@ -30,25 +30,25 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	uint64 PersonSeed;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	EGender Gender;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	FString Name;
 	
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	ALot* Home;
 	
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	int8 AgeYears;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	ELifeStage LifeStage;
 	
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	int16 Birthday;
 };
 

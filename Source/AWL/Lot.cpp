@@ -48,7 +48,6 @@ ALot* GenerateLot(UWorld* World, FAWLRand& Rng)
 	{
 		bDone = true;
 
-		//auto World = GetWorld();
 		FVector Location;
 		FRotator Rotation;
 		FActorSpawnParameters SpawnInfo;

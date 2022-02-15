@@ -28,10 +28,10 @@ public:
 
 	bool IsOccupied() const;
 	
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	uint64 LotSeed;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	TArray<APerson*> Occupants;
 };
 
