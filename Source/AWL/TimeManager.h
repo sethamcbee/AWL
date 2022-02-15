@@ -35,15 +35,15 @@ public:
 
 	void Update(float DeltaTime);
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	uint64 Ticks = 0;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	bool bUpdateSun = false;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	AActor* Sun;
 
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(VisibleInstanceOnly)
 	float SunPitch = 180.0;
 };
