@@ -14,6 +14,14 @@ UTimeManager::UTimeManager()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
+
+	Ticks = 0;
+	Minute = 0;
+	Hour = 0;
+	Day = 1;
+	Season = ESeason::Spring;
+	Year = 1;
+	TOD = 0;
 }
 
 
@@ -33,7 +41,7 @@ void UTimeManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 }
 
 
-void UTimeManager::SetSun(AAWLGameState* GS, AActor* Actor)
+void UTimeManager::RegisterSun(AAWLGameState* GS, AActor* Actor)
 {
 	GS->TimeManager->Sun = Actor;
 	GS->bTimeTick = true;
@@ -43,24 +51,87 @@ void UTimeManager::SetSun(AAWLGameState* GS, AActor* Actor)
 
 void UTimeManager::Update(float DeltaTime)
 {
+	UpdateClocks();
+
 	++Ticks;
 
 	if (bUpdateSun)
 	{
-		float DeltaPitch = 360.0 * DeltaTime; // deg per min
-		DeltaPitch /= (float)MinuteLengthTicks; // deg/min / (ticks/min) = deg / tick
-
-		SunPitch += DeltaPitch;
+		float SunPitch = 75.0 + (360.0 * TOD) / (float)DayLengthTicks;
 		FRotator NewRotation = FRotator(SunPitch, 0, 0.0);
-
-		// Check if SunPitch wrapped around axis.
-		if (SunPitch > 360.0)
-		{
-			SunPitch -= 360.0;
-		}
 
 		FQuat QuatRotation = FQuat(NewRotation);
 
 		Sun->SetActorRotation(QuatRotation);
+	}
+}
+
+
+void UTimeManager::UpdateClocks()
+{
+	++TOD;
+	if (Ticks % DayLengthTicks == 0)
+	{
+		TOD = 0;
+	}
+
+	if (Ticks % MinuteLengthTicks == 0)
+	{
+		++Minute;
+	}
+
+	if (Ticks % HourLengthTicks == 0)
+	{
+		Minute = 0;
+		++Hour;
+		UpdateMinutes.Broadcast(Minute);
+	}
+	else
+	{
+		UpdateMinutes.Broadcast(Minute);
+		return;
+	}
+
+	if (Ticks % DayLengthTicks == 0)
+	{
+		Hour = 0;
+		++Day;
+		UpdateHours.Broadcast(Hour);
+	}
+	else
+	{
+		UpdateHours.Broadcast(Hour);
+		return;
+	}
+
+	if (Ticks % SeasonLengthTicks == 0)
+	{
+		Day = 1;
+		UpdateDays.Broadcast(Day);
+
+		if (Season == ESeason::Spring)
+		{
+			Season = ESeason::Summer;
+		}
+		else if (Season == ESeason::Summer)
+		{
+			Season = ESeason::Fall;
+		}
+		else if (Season == ESeason::Fall)
+		{
+			Season = ESeason::Winter;
+		}
+		else
+		{
+			Season = ESeason::Spring;
+			++Year;
+			UpdateYears.Broadcast(Year);
+		}
+
+		UpdateSeasons.Broadcast(Season);
+	}
+	else
+	{
+		UpdateDays.Broadcast(Day);
 	}
 }

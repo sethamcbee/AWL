@@ -18,6 +18,15 @@ enum class ELifeStage : uint8
 	Dead UMETA(DisplayName = "Dead")
 };
 
+UENUM()
+enum class ESeason : uint8
+{
+	Spring UMETA(DisplayName = "Spring"),
+	Summer UMETA(DisplayName = "Summer"),
+	Fall UMETA(DisplayName = "Fall"),
+	Winter UMETA(DisplayName = "Winter")
+};
+
  // Time and date rates.
 extern int HourLengthMinutes;
 extern int DayLengthHours;
@@ -79,6 +88,7 @@ int RandTeenAge(FAWLRand& Rng);
 int RandAdultAge(FAWLRand& Rng);
 int RandSeniorAge(FAWLRand& Rng);
 
+FString SeasonToString(ESeason Season);
 ELifeStage YearsToLifeStage(int Years);
 int RandBirthday(FAWLRand& Rng);
 FString BirthdayToString(int Birthday);

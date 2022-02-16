@@ -22,8 +22,10 @@ APerson::APerson()
 void APerson::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+#if WITH_EDITOR
 	SetActorLabel(TEXT("Person") + Name);
+#endif
 }
 
 

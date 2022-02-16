@@ -11,7 +11,7 @@ int DayLengthHours = 24;
 int SeasonLengthDays = 10;
 int YearLengthSeasons = 4;
 
-int MinuteLengthTicks = 60;
+int MinuteLengthTicks = 10;
 int HourLengthTicks = MinuteLengthTicks * HourLengthMinutes;
 int DayLengthTicks = HourLengthTicks * DayLengthHours;
 int SeasonLengthTicks = DayLengthTicks * SeasonLengthDays;
@@ -155,6 +155,27 @@ int RandSeniorAge(FAWLRand& Rng)
     int Min = SeniorAgeYears;
     int Max = DeathAgeYears - 1;
     return Rng(Min, Max);
+}
+
+
+FString SeasonToString(ESeason Season)
+{
+    if (Season == ESeason::Spring)
+    {
+        return TEXT("Spring");
+    }
+    else if (Season == ESeason::Summer)
+    {
+        return TEXT("Summer");
+    }
+    else if (Season == ESeason::Fall)
+    {
+        return TEXT("Fall");
+    }
+    else
+    {
+        return TEXT("Winter");
+    }
 }
 
 
