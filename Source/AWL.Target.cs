@@ -10,5 +10,6 @@ public class AWLTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.AddRange( new string[] { "AWL" } );
+		WindowsPlatform.PCHMemoryAllocationFactor = 2000;
 	}
 }

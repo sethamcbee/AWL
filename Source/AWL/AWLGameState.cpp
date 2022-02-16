@@ -7,6 +7,10 @@
 #include "Misc/MessageDialog.h"
 
 
+const int LOT_COUNT = 20;
+const int LOTS_OCCUPIED = 15;
+
+
 static auto RandLotIndex(FAWLRand& Rng)
 {
 	return Rng(0, LOT_COUNT - 1);
@@ -82,6 +86,15 @@ void AAWLGameState::Generate()
 		{
 			// Lot occupied; pick another lot.
 			++I;
+		}
+	}
+
+	// Generate empty lots for remaining slots.
+	for (ALot* Lot : Lots)
+	{
+		if (!IsValid(Lot))
+		{
+			Lot = GenerateEmptyLot(GetWorld(), WorldRand);
 		}
 	}
 }

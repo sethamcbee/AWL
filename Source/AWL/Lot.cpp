@@ -36,6 +36,12 @@ bool ALot::IsOccupied() const
 }
 
 
+ALot* GenerateEmptyLot(UWorld* World, FAWLRand& Rng)
+{
+	return World->SpawnActor<ALot>(ALot::StaticClass());
+}
+
+
 ALot* GenerateLot(UWorld* World, FAWLRand& Rng)
 {
 	FTransform Transform;

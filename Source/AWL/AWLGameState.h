@@ -10,8 +10,8 @@
 #include "GameFramework/GameStateBase.h"
 #include "AWLGameState.generated.h"
 
-const int LOT_COUNT = 30;
-const int LOTS_OCCUPIED = 15;
+extern const int LOT_COUNT;
+extern const int LOTS_OCCUPIED;
 
 /**
  * 

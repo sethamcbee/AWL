@@ -35,4 +35,5 @@ public:
 	TArray<APerson*> Occupants;
 };
 
+ALot* GenerateEmptyLot(UWorld* World, FAWLRand& Rng);
 ALot* GenerateLot(UWorld* World, FAWLRand& Rng);
