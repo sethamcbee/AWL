@@ -5,6 +5,7 @@
 
 #include "Containers/UnrealString.h" 
 
+
 int TimeScale = 5;
 
 int HourLengthMinutes = 60;

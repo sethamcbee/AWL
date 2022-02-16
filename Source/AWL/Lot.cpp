@@ -22,7 +22,6 @@ ALot::ALot()
 
 	auto Comp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Comp->SetStaticMesh(Asset);
-	//Comp->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 	Comp->SetupAttachment(GetRootComponent());
 }
 

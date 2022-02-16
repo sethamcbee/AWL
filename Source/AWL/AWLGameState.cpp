@@ -3,6 +3,11 @@
 
 #include "AWLGameState.h"
 
+#include "Figure/Lexer.h"
+#include "Figure/Sexp.h"
+
+#include <fstream>
+
 #include "Engine/EngineTypes.h" 
 #include "Misc/MessageDialog.h"
 
@@ -33,6 +38,24 @@ void AAWLGameState::BeginPlay()
 {
 	Super::BeginPlay();
 
+	LoadModules();
+
+	Generate();
+}
+
+
+void AAWLGameState::Tick(float DeltaTime)
+{
+	if (bTimeTick)
+	{
+		TimeManager->Update(DeltaTime);
+	}
+}
+
+
+void AAWLGameState::LoadModules()
+{
+#if 1
 	// Load male names.
 	TArray<FString> MaleNamesTmp;
 	IPlatformFile& FileManager = FPlatformFileManager::Get().GetPlatformFile();
@@ -57,17 +80,11 @@ void AAWLGameState::BeginPlay()
 	{
 		FemaleNames.Add(Name);
 	}
+#endif
 
-	Generate();
-}
-
-
-void AAWLGameState::Tick(float DeltaTime)
-{
-	if (bTimeTick)
-	{
-		TimeManager->Update(DeltaTime);
-	}
+	auto MaleNamesModule = std::ifstream(TEXT("C://AWLData/male_names.txt"));
+	auto MaleNamesLexer = Figure::Lexer(MaleNamesModule);
+	auto MaleNamesSexp = Figure::Sexp(MaleNamesLexer);
 }
 
 

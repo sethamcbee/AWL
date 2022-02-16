@@ -29,6 +29,8 @@ public:
 
 	void Tick(float DeltaTime) override;
 
+	void LoadModules();
+
 	void Generate();
 
 	FString RandMaleName(FAWLRand& Rng);
