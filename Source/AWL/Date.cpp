@@ -5,13 +5,14 @@
 
 #include "Containers/UnrealString.h" 
 
+int TimeScale = 5;
 
 int HourLengthMinutes = 60;
 int DayLengthHours = 24;
 int SeasonLengthDays = 10;
 int YearLengthSeasons = 4;
 
-int MinuteLengthTicks = 10;
+int MinuteLengthTicks = TimeScale;
 int HourLengthTicks = MinuteLengthTicks * HourLengthMinutes;
 int DayLengthTicks = HourLengthTicks * DayLengthHours;
 int SeasonLengthTicks = DayLengthTicks * SeasonLengthDays;

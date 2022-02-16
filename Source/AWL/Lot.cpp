@@ -3,6 +3,7 @@
 
 #include "Lot.h"
 
+#include "AWLGameState.h"
 #include "AWLRand.h"
 #include "Person.h"
 
@@ -13,13 +14,43 @@ ALot::ALot()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.SetTickFunctionEnable(false);
+
+	SetRootComponent(CreateDefaultSubobject<USceneComponent>(TEXT("Root")));
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("StaticMesh'/Game/Geometry/Meshes/TemplateFloor.TemplateFloor'"));
+	UStaticMesh* Asset = MeshAsset.Object;
+
+	auto Comp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	Comp->SetStaticMesh(Asset);
+	//Comp->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+	Comp->SetupAttachment(GetRootComponent());
 }
 
 
 // Called when the game starts or when spawned
 void ALot::BeginPlay()
 {
+	static float Height = 20.0;
+	static float Gap = 22.0 * 100;
+	static float Offset = 0.0;
+	static float Scale = 0.5;
+
 	Super::BeginPlay();
+
+	// Transform.
+	auto NewTransform = GetRootComponent()->GetComponentTransform();
+	auto NewTranslation = NewTransform.GetTranslation();
+	auto NewScale = NewTransform.GetScale3D();
+
+	NewTranslation.X = Offset;
+	NewTranslation.Y = static_cast<AAWLGameState*>(GetWorld()->GetGameState())->WorldRand(-2000, 2000);
+	NewTranslation.Z = Height;
+	NewScale *= Scale;
+	NewTransform.SetTranslationAndScale3D(NewTranslation, NewScale);
+	GetRootComponent()->SetWorldTransform(NewTransform);
+
+	// Iterate.
+	Offset += Gap;
 }
 
 
