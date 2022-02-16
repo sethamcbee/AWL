@@ -44,6 +44,9 @@ public:
 
 	void UpdateClocks();
 
+	UFUNCTION(BlueprintCallable)
+	void ForceUpdateClocks();
+
 	UPROPERTY(VisibleInstanceOnly)
 	uint64 Ticks = 0;
 

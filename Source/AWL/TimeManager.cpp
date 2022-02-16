@@ -31,6 +31,12 @@ void UTimeManager::BeginPlay()
 	Super::BeginPlay();
 
 	PrimaryComponentTick.SetTickFunctionEnable(false);
+
+	UpdateMinutes.Broadcast(Minute);
+	UpdateHours.Broadcast(Hour);
+	UpdateDays.Broadcast(Day);
+	UpdateSeasons.Broadcast(Season);
+	UpdateYears.Broadcast(Year);
 }
 
 
@@ -134,4 +140,14 @@ void UTimeManager::UpdateClocks()
 	{
 		UpdateDays.Broadcast(Day);
 	}
+}
+
+
+void UTimeManager::ForceUpdateClocks()
+{
+	UpdateMinutes.Broadcast(Minute);
+	UpdateHours.Broadcast(Hour);
+	UpdateDays.Broadcast(Day);
+	UpdateSeasons.Broadcast(Season);
+	UpdateYears.Broadcast(Year);
 }
