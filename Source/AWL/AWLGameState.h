@@ -37,10 +37,16 @@ public:
 	FString RandFemaleName(FAWLRand& Rng);
 
 	UPROPERTY(VisibleInstanceOnly)
-	TSet<FString> MaleNames;
+	TArray<FString> MaleNames;
 
 	UPROPERTY(VisibleInstanceOnly)
-	TSet<FString> FemaleNames;
+	TArray<FString> FemaleNames;
+
+	UPROPERTY(VisibleInstanceOnly)
+	TSet<FString> FreeMaleNames;
+
+	UPROPERTY(VisibleInstanceOnly)
+	TSet<FString> FreeFemaleNames;
 
 	UPROPERTY(VisibleInstanceOnly)
 	bool bTimeTick = false;

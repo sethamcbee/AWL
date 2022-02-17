@@ -2,10 +2,10 @@
  * @file sexp.cc
  */
 
-#include <variant>
-
-#include "Lexer.h"
 #include "Sexp.h"
+#include "Lexer.h"
+
+#include <variant>
 
 namespace Figure
 {

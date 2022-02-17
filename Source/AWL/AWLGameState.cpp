@@ -3,8 +3,7 @@
 
 #include "AWLGameState.h"
 
-#include "Figure/Lexer.h"
-#include "Figure/Sexp.h"
+#include "FSexp.h"
 
 #include <fstream>
 
@@ -55,36 +54,19 @@ void AAWLGameState::Tick(float DeltaTime)
 
 void AAWLGameState::LoadModules()
 {
-#if 1
-	// Load male names.
-	TArray<FString> MaleNamesTmp;
-	IPlatformFile& FileManager = FPlatformFileManager::Get().GetPlatformFile();
-	FString MaleNamesFile = TEXT("C://AWLData/male_names.txt");
-	if (FileManager.FileExists(*MaleNamesFile))
+	FSexp MaleNamesSexp("C://AWLData/male_names.txt");
+	auto MaleNamesList = ArrayFromSexp(MaleNamesSexp);
+	for (const auto& Name : MaleNamesList)
 	{
-		FFileHelper::LoadFileToStringArray(MaleNamesTmp, *MaleNamesFile, FFileHelper::EHashOptions::None);
-	}
-	for (const auto& Name : MaleNamesTmp)
-	{
-		MaleNames.Add(Name);
+		FreeMaleNames.Add(SymbolFromSexp(Name));
 	}
 
-	// Load female names.
-	TArray<FString> FemaleNamesTmp;
-	FString FemaleNamesFile = TEXT("C://AWLData/female_names.txt");
-	if (FileManager.FileExists(*FemaleNamesFile))
+	FSexp FemaleNamesSexp("C://AWLData/female_names.txt");
+	auto FemaleNamesList = ArrayFromSexp(FemaleNamesSexp);
+	for (const auto& Name : FemaleNamesList)
 	{
-		FFileHelper::LoadFileToStringArray(FemaleNamesTmp, *FemaleNamesFile, FFileHelper::EHashOptions::None);
+		FreeFemaleNames.Add(SymbolFromSexp(Name));
 	}
-	for (const auto& Name : FemaleNamesTmp)
-	{
-		FemaleNames.Add(Name);
-	}
-#endif
-
-	auto MaleNamesModule = std::ifstream(TEXT("C://AWLData/male_names.txt"));
-	auto MaleNamesLexer = Figure::Lexer(MaleNamesModule);
-	auto MaleNamesSexp = Figure::Sexp(MaleNamesLexer);
 }
 
 
@@ -123,17 +105,17 @@ FString AAWLGameState::RandMaleName(FAWLRand& Rng)
 	{
 		return A < B;
 	};
-	MaleNames.Sort(Pred);
-	auto Max = MaleNames.Num() - 1;
+	FreeMaleNames.Sort(Pred);
+	auto Max = FreeMaleNames.Num() - 1;
 	auto Index = Rng(0, Max);
-	auto It = MaleNames.CreateIterator();
+	auto It = FreeMaleNames.CreateIterator();
 	while (Index > 0)
 	{
 		--Index;
 		++It;
 	}
 	auto Name = *It;
-	MaleNames.Remove(Name);
+	FreeMaleNames.Remove(Name);
 	return Name;
 }
 
@@ -143,16 +125,16 @@ FString AAWLGameState::RandFemaleName(FAWLRand& Rng)
 	{
 		return A < B;
 	};
-	FemaleNames.Sort(Pred);
-	auto Max = FemaleNames.Num() - 1;
+	FreeFemaleNames.Sort(Pred);
+	auto Max = FreeFemaleNames.Num() - 1;
 	auto Index = Rng(0, Max);
-	auto It = FemaleNames.CreateIterator();
+	auto It = FreeFemaleNames.CreateIterator();
 	while (Index > 0)
 	{
 		--Index;
 		++It;
 	}
 	auto Name = *It;
-	FemaleNames.Remove(Name);
+	FreeFemaleNames.Remove(Name);
 	return Name;
 }

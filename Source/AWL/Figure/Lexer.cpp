@@ -2,10 +2,10 @@
  * @file lexer.cc
  */
 
+#include "Lexer.h"
+
 #include <cctype>
 #include <cstdlib>
-
-#include "Lexer.h"
 
 namespace Figure
 {
