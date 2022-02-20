@@ -3,8 +3,6 @@
 #pragma once
 
 #include "AWLRand.h"
-#include "Lot.h"
-#include "TimeManager.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
@@ -12,6 +10,10 @@
 
 extern const int LOT_COUNT;
 extern const int LOTS_OCCUPIED;
+
+class ALot;
+class UStoryManager;
+class UTimeManager;
 
 /**
  * 
@@ -49,10 +51,16 @@ public:
 	TSet<FString> FreeFemaleNames;
 
 	UPROPERTY(VisibleInstanceOnly)
+	UTimeManager* TimeManager;
+
+	UPROPERTY(VisibleInstanceOnly)
 	bool bTimeTick = false;
 
 	UPROPERTY(VisibleInstanceOnly)
-	UTimeManager* TimeManager;
+	UStoryManager* StoryManager;
+
+	UPROPERTY(VisibleInstanceOnly)
+	bool bStoryManagerTick = false;
 
 	UPROPERTY(VisibleInstanceOnly)
 	uint64 WorldSeed;

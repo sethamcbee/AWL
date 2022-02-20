@@ -47,9 +47,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ForceUpdateClocks();
 
-	UPROPERTY(VisibleInstanceOnly)
-	uint64 Ticks = 0;
-
 	UPROPERTY(BlueprintAssignable)
 	FMinuteUpdateDelegate UpdateMinutes;
 
@@ -64,6 +61,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FYearUpdateDelegate UpdateYears;
+
+	UPROPERTY(VisibleInstanceOnly)
+	uint64 Ticks = 0;
+
+	UPROPERTY(VisibleInstanceOnly)
+	uint64 WorldTick;
 
 	UPROPERTY()
 	float TimeSinceLastMinute;

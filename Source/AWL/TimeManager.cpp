@@ -16,6 +16,7 @@ UTimeManager::UTimeManager()
 	PrimaryComponentTick.bCanEverTick = false;
 
 	Ticks = 0;
+	WorldTick = 0;
 	TimeSinceLastMinute = 0.0f;
 	Minute = 0;
 	Hour = 0;
@@ -87,6 +88,7 @@ void UTimeManager::UpdateClocks(float DeltaTime)
 	{
 		return;
 	}
+	++WorldTick;
 
 	while (TimeSinceLastMinute >= MinuteLengthSeconds)
 	{

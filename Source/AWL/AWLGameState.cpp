@@ -4,6 +4,9 @@
 #include "AWLGameState.h"
 
 #include "FSexp.h"
+#include "Lot.h"
+#include "StoryManager.h"
+#include "TimeManager.h"
 
 #include <fstream>
 
@@ -27,6 +30,7 @@ AAWLGameState::AAWLGameState() : WorldSeed(1), WorldRand(WorldSeed)
 
 	// Initialize managers.
 	TimeManager = CreateDefaultSubobject<UTimeManager>("UTimeManager");
+	StoryManager = CreateDefaultSubobject<UStoryManager>("UStoryManager");
 
 	// Initialize lots.
 	Lots.Init(nullptr, LOT_COUNT);
@@ -48,6 +52,12 @@ void AAWLGameState::Tick(float DeltaTime)
 	if (bTimeTick)
 	{
 		TimeManager->Update(DeltaTime);
+	}
+
+	if (bStoryManagerTick)
+	{
+		auto WorldTick = TimeManager->WorldTick;
+		StoryManager->Update(WorldTick);
 	}
 }
 
