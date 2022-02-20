@@ -42,7 +42,7 @@ public:
 
 	void Update(float DeltaTime);
 
-	void UpdateClocks();
+	void UpdateClocks(float DeltaTime);
 
 	UFUNCTION(BlueprintCallable)
 	void ForceUpdateClocks();
@@ -66,6 +66,9 @@ public:
 	FYearUpdateDelegate UpdateYears;
 
 	UPROPERTY()
+	float TimeSinceLastMinute;
+
+	UPROPERTY()
 	int Minute;
 
 	UPROPERTY()
@@ -87,5 +90,5 @@ public:
 	AActor* Sun;
 
 	UPROPERTY(VisibleInstanceOnly)
-	int TOD;
+	float TOD;
 };

@@ -61,4 +61,7 @@ public:
 	
 	UPROPERTY(VisibleInstanceOnly)
 	TArray<ALot*> Lots;
+
+	UPROPERTY(VisibleInstanceOnly);
+	float LotOffset = 0.0;
 };

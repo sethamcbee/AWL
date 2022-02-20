@@ -30,26 +30,27 @@ ALot::ALot()
 void ALot::BeginPlay()
 {
 	static float Height = 20.0;
-	static float Gap = 22.0 * 100;
-	static float Offset = 0.0;
-	static float Scale = 0.5;
+	static float Gap = 15.0 * 100;
+	static float Scale = 0.3;
 
 	Super::BeginPlay();
+
+	auto GS = static_cast<AAWLGameState*>(GetWorld()->GetGameState());
 
 	// Transform.
 	auto NewTransform = GetRootComponent()->GetComponentTransform();
 	auto NewTranslation = NewTransform.GetTranslation();
 	auto NewScale = NewTransform.GetScale3D();
 
-	NewTranslation.X = Offset;
-	NewTranslation.Y = static_cast<AAWLGameState*>(GetWorld()->GetGameState())->WorldRand(-2000, 2000);
+	NewTranslation.X = GS->LotOffset;
+	NewTranslation.Y = GS->WorldRand(-2000, 2000);
 	NewTranslation.Z = Height;
 	NewScale *= Scale;
 	NewTransform.SetTranslationAndScale3D(NewTranslation, NewScale);
 	GetRootComponent()->SetWorldTransform(NewTransform);
 
 	// Iterate.
-	Offset += Gap;
+	GS->LotOffset += Gap;
 }
 
 

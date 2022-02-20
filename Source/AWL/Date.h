@@ -27,6 +27,8 @@ enum class ESeason : uint8
 	Winter UMETA(DisplayName = "Winter")
 };
 
+extern float MinuteLengthSeconds;
+
  // Time and date rates.
 extern int HourLengthMinutes;
 extern int DayLengthHours;
@@ -39,6 +41,7 @@ extern int DayLengthTicks;
 extern int SeasonLengthTicks;
 extern int YearLengthTicks;
 
+extern float DayLengthSeconds;
 extern int YearLengthDays;
 
 // Aging.

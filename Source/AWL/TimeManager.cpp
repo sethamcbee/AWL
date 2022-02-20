@@ -16,12 +16,13 @@ UTimeManager::UTimeManager()
 	PrimaryComponentTick.bCanEverTick = false;
 
 	Ticks = 0;
+	TimeSinceLastMinute = 0.0f;
 	Minute = 0;
 	Hour = 0;
 	Day = 1;
 	Season = ESeason::Spring;
 	Year = 1;
-	TOD = 0;
+	TOD = 0.0f;
 }
 
 
@@ -32,11 +33,10 @@ void UTimeManager::BeginPlay()
 
 	PrimaryComponentTick.SetTickFunctionEnable(false);
 
-	UpdateMinutes.Broadcast(Minute);
-	UpdateHours.Broadcast(Hour);
-	UpdateDays.Broadcast(Day);
-	UpdateSeasons.Broadcast(Season);
-	UpdateYears.Broadcast(Year);
+	// Set initial time.
+	Hour = 6;
+
+	ForceUpdateClocks();
 }
 
 
@@ -57,14 +57,21 @@ void UTimeManager::RegisterSun(AAWLGameState* GS, AActor* Actor)
 
 void UTimeManager::Update(float DeltaTime)
 {
-	UpdateClocks();
+	UpdateClocks(DeltaTime);
+
+	// Update time of day.
+	TOD += DeltaTime;
+	while (TOD > DayLengthSeconds)
+	{
+		TOD -= DayLengthSeconds;
+	}
 
 	++Ticks;
 
 	if (bUpdateSun)
 	{
-		float SunPitch = 75.0 + (360.0 * TOD) / (float)DayLengthTicks;
-		FRotator NewRotation = FRotator(SunPitch, 0, 0.0);
+		float SunPitch = 75.0 + (360.0 * TOD) / (float)DayLengthSeconds;
+		FRotator NewRotation = FRotator(SunPitch, 0, 0.0f);
 
 		FQuat QuatRotation = FQuat(NewRotation);
 
@@ -73,9 +80,86 @@ void UTimeManager::Update(float DeltaTime)
 }
 
 
-void UTimeManager::UpdateClocks()
+void UTimeManager::UpdateClocks(float DeltaTime)
 {
-	++TOD;
+	TimeSinceLastMinute += DeltaTime;
+	if (TimeSinceLastMinute < MinuteLengthSeconds)
+	{
+		return;
+	}
+
+	while (TimeSinceLastMinute >= MinuteLengthSeconds)
+	{
+		TimeSinceLastMinute -= MinuteLengthSeconds;
+		++Minute;
+	}
+
+	if (Minute < HourLengthMinutes)
+	{
+		UpdateMinutes.Broadcast(Minute);
+		return;
+	}
+	else
+	{
+		while (Minute >= HourLengthMinutes)
+		{
+			Minute -= HourLengthMinutes;
+			++Hour;
+		}
+	}
+	UpdateMinutes.Broadcast(Minute);
+
+	if (Hour < DayLengthHours)
+	{
+		UpdateHours.Broadcast(Hour);
+		return;
+	}
+	else
+	{
+		while (Hour >= DayLengthHours)
+		{
+			Hour -= DayLengthHours;
+			++Day;
+		}
+	}
+	UpdateHours.Broadcast(Hour);
+
+	if (Day < SeasonLengthDays)
+	{
+		UpdateDays.Broadcast(Day);
+		return;
+	}
+	else
+	{
+		while (Day > SeasonLengthDays)
+		{
+			Day -= SeasonLengthDays;
+
+			if (Season == ESeason::Spring)
+			{
+				Season = ESeason::Summer;
+			}
+			else if (Season == ESeason::Summer)
+			{
+				Season = ESeason::Fall;
+			}
+			else if (Season == ESeason::Fall)
+			{
+				Season = ESeason::Winter;
+			}
+			else
+			{
+				Season = ESeason::Spring;
+				++Year;
+				UpdateYears.Broadcast(Year);
+			}
+
+			UpdateSeasons.Broadcast(Season);
+		}
+	}
+	UpdateDays.Broadcast(Day);
+
+#if 0
 	if (Ticks % DayLengthTicks == 0)
 	{
 		TOD = 0;
@@ -140,6 +224,7 @@ void UTimeManager::UpdateClocks()
 	{
 		UpdateDays.Broadcast(Day);
 	}
+#endif
 }
 
 
@@ -150,4 +235,7 @@ void UTimeManager::ForceUpdateClocks()
 	UpdateDays.Broadcast(Day);
 	UpdateSeasons.Broadcast(Season);
 	UpdateYears.Broadcast(Year);
+
+	float HourFrac = (float)Minute / HourLengthMinutes;
+	TOD = ((float)Hour / DayLengthHours + HourFrac) * DayLengthSeconds;
 }

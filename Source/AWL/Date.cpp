@@ -3,9 +3,9 @@
 
 #include "Date.h"
 
-#include "Containers/UnrealString.h" 
+#include "Containers/UnrealString.h"
 
-
+float MinuteLengthSeconds = 1.0 * 0.1;
 int TimeScale = 5;
 
 int HourLengthMinutes = 60;
@@ -19,6 +19,7 @@ int DayLengthTicks = HourLengthTicks * DayLengthHours;
 int SeasonLengthTicks = DayLengthTicks * SeasonLengthDays;
 int YearLengthTicks = SeasonLengthTicks * YearLengthSeasons;
 
+float DayLengthSeconds = MinuteLengthSeconds * HourLengthMinutes * DayLengthHours;
 int YearLengthDays = YearLengthTicks / DayLengthTicks;
 
 int BabyLengthYears = 1;
