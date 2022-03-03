@@ -8,6 +8,9 @@
 #include "FSexp.h"
 #include "Date.h"
 #include "PersonParams.h"
+#include "SMBirthdayEvent.h"
+#include "StoryManager.h"
+#include "TimeManager.h"
 
 
 // Sets default values
@@ -128,8 +131,18 @@ APerson* GeneratePerson(UWorld* World, FAWLRand& Rng, const FPersonParams& Param
 
 	Person->LifeStage = YearsToLifeStage(Person->AgeYears);
 
+	Person->Birthday = RandBirthday(Rng);
+
 	// Register with world.
 	GS->People.Add(Person);
+
+	// Register birthday with StoryManager.
+	auto BirthdayTick = GS->TimeManager->WorldTick;
+	BirthdayTick += DaysToTicks(Person->Birthday);
+	auto BirthdayEvent = NewObject<USMBirthdayEvent>(Person);
+	BirthdayEvent->Tick = BirthdayTick;
+	BirthdayEvent->Person = Person;
+	GS->StoryManager->AddEvent(BirthdayEvent);
 
 	Person->FinishSpawning(Transform);
 	return Person;

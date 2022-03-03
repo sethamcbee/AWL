@@ -88,12 +88,12 @@ void UTimeManager::UpdateClocks(float DeltaTime)
 	{
 		return;
 	}
-	++WorldTick;
 
 	while (TimeSinceLastMinute >= MinuteLengthSeconds)
 	{
 		TimeSinceLastMinute -= MinuteLengthSeconds;
 		++Minute;
+		++WorldTick;
 	}
 
 	if (Minute < HourLengthMinutes)

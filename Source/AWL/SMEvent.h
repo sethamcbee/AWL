@@ -14,5 +14,10 @@ public:
 	USMEvent();
 	~USMEvent();
 
-	void BeginEvent();
+	bool operator<(const USMEvent Other) const;
+
+	virtual void BeginEvent();
+
+	UPROPERTY(VisibleInstanceOnly)
+	uint64 Tick;
 };

@@ -29,10 +29,10 @@ public:
 
 	void Update(uint64 WorldTick);
 
-	void AddEvent(uint64 Tick, USMEvent* Event);
+	void AddEvent(USMEvent* Event);
 
-	//UPROPERTY(VisibleInstanceOnly)
-	TSortedMap<uint64, USMEvent*> Events;
+	UPROPERTY(VisibleInstanceOnly)
+	TArray<USMEvent*> Events;
 
 	UPROPERTY(VisibleInstanceOnly)
 	uint64 NextEventTick;

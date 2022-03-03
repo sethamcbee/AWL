@@ -7,6 +7,12 @@
 #include "SMEvent.h"
 
 
+bool SMEventPred(const USMEvent& First, const USMEvent& Second)
+{
+	return First.Tick < Second.Tick;
+}
+
+
 // Sets default values for this component's properties
 UStoryManager::UStoryManager()
 {
@@ -38,14 +44,13 @@ void UStoryManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 void UStoryManager::Update(uint64 WorldTick)
 {
 	// Check if we have an event to begin.
-	if (NextEventTick <= WorldTick && Events.Num() > 0)
+	if (WorldTick >= NextEventTick && Events.Num() > 0)
 	{
-		USMEvent* EventToBegin = Events.CreateConstIterator()->Value;
-		Events.Remove(NextEventTick);
+		USMEvent* EventToBegin;
+		Events.HeapPop(EventToBegin, SMEventPred);
 		if (Events.Num() > 0)
 		{
-			auto It = Events.CreateConstIterator();
-			NextEventTick = It->Key;
+			NextEventTick = Events.HeapTop()->Tick;
 		}
 		else
 		{
@@ -58,13 +63,13 @@ void UStoryManager::Update(uint64 WorldTick)
 }
 
 
-void UStoryManager::AddEvent(uint64 Tick, USMEvent* Event)
+void UStoryManager::AddEvent(USMEvent* Event)
 {
-	if (Tick < NextEventTick)
+	if (Event->Tick < NextEventTick)
 	{
-		NextEventTick = Tick;
+		NextEventTick = Event->Tick;
 	}
 	// Todo: Check for collision.
 
-	Events.Add(Tick, Event);
+	Events.HeapPush(Event, SMEventPred);
 }

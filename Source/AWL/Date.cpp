@@ -5,15 +5,15 @@
 
 #include "Containers/UnrealString.h"
 
-float MinuteLengthSeconds = 1.0 * 0.1;
-int TimeScale = 5;
+float MinuteLengthSeconds = 1.0 * 0.01;
+int TimeScale = 1;
 
 int HourLengthMinutes = 60;
 int DayLengthHours = 24;
 int SeasonLengthDays = 10;
 int YearLengthSeasons = 4;
 
-int MinuteLengthTicks = TimeScale;
+int MinuteLengthTicks = 1;
 int HourLengthTicks = MinuteLengthTicks * HourLengthMinutes;
 int DayLengthTicks = HourLengthTicks * DayLengthHours;
 int SeasonLengthTicks = DayLengthTicks * SeasonLengthDays;
@@ -216,8 +216,7 @@ ELifeStage YearsToLifeStage(int Years)
 int RandBirthday(FAWLRand& Rng)
 {
     int Min = 0;
-    int MaxTicks = YearLengthTicks - 1;
-    int Max = TicksToDays(MaxTicks);
+    int Max = YearLengthDays - 1;
     return Rng(Min, Max);
 }
 
