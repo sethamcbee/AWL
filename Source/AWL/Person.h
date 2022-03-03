@@ -12,6 +12,7 @@
 
 class ALot;
 class FAWLRand;
+struct FSexp;
 
 UCLASS()
 class AWL_API APerson : public AActor
@@ -29,6 +30,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void ToSexp(FSexp& Out) const;
 
 	UPROPERTY(VisibleInstanceOnly)
 	uint64 PersonSeed;

@@ -5,6 +5,7 @@
 
 #include "AWLGameState.h"
 #include "AWLRand.h"
+#include "FSexp.h"
 #include "Date.h"
 #include "PersonParams.h"
 
@@ -33,6 +34,45 @@ void APerson::BeginPlay()
 void APerson::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+
+void APerson::ToSexp(FSexp& Out) const
+{
+	FSexp SeedExp = UIntToSexp(PersonSeed);
+	FSexp GenderExp = IntToSexp(static_cast<int64>(Gender));
+	FSexp NameExp = SymbolToSexp(Name);
+
+	// Get lot number.
+	auto GS = GetWorld()->GetGameState<AAWLGameState>();
+	int64 LotId = 0;
+	for (const auto* Lot : GS->Lots)
+	{
+		if (Lot == Home)
+		{
+			break;
+		}
+		else
+		{
+			++LotId;
+		}
+	}
+	FSexp HomeExp = IntToSexp(LotId);
+
+	FSexp AgeExp = IntToSexp(AgeYears);
+	FSexp LifeStageExp = IntToSexp(static_cast<int64>(LifeStage));
+	FSexp BirthdayExp = IntToSexp(Birthday);
+
+	TArray<FSexp> ExpArray;
+	ExpArray.Add(SeedExp);
+	ExpArray.Add(GenderExp);
+	ExpArray.Add(NameExp);
+	ExpArray.Add(HomeExp);
+	ExpArray.Add(AgeExp);
+	ExpArray.Add(LifeStageExp);
+	ExpArray.Add(BirthdayExp);
+	
+	Out = ArrayToSexp(ExpArray);
 }
 
 
@@ -87,6 +127,9 @@ APerson* GeneratePerson(UWorld* World, FAWLRand& Rng, const FPersonParams& Param
 	}
 
 	Person->LifeStage = YearsToLifeStage(Person->AgeYears);
+
+	// Register with world.
+	GS->People.Add(Person);
 
 	Person->FinishSpawning(Transform);
 	return Person;

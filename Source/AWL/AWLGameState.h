@@ -12,6 +12,8 @@ extern const int LOT_COUNT;
 extern const int LOTS_OCCUPIED;
 
 class ALot;
+class APerson;
+struct FSexp;
 class UStoryManager;
 class UTimeManager;
 
@@ -34,6 +36,8 @@ public:
 	void LoadModules();
 
 	void Generate();
+
+	void ToSexp(FSexp& Out) const;
 
 	FString RandMaleName(FAWLRand& Rng);
 	FString RandFemaleName(FAWLRand& Rng);
@@ -70,6 +74,9 @@ public:
 	UPROPERTY(VisibleInstanceOnly)
 	TArray<ALot*> Lots;
 
-	UPROPERTY(VisibleInstanceOnly);
+	UPROPERTY(VisibleInstanceOnly)
 	float LotOffset = 0.0;
+
+	UPROPERTY(VisibleInstanceOnly)
+	TArray<APerson*> People;
 };

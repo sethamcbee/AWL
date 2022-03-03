@@ -25,9 +25,6 @@ void UStoryManager::BeginPlay()
 
 	auto GS = static_cast<AAWLGameState*>(GetWorld()->GetGameState());
 	GS->bStoryManagerTick = true;
-
-	USMEvent* TestEvent = NewObject<USMEvent>(this);
-	AddEvent(30, TestEvent);
 }
 
 
@@ -43,11 +40,8 @@ void UStoryManager::Update(uint64 WorldTick)
 	// Check if we have an event to begin.
 	if (NextEventTick <= WorldTick && Events.Num() > 0)
 	{
-		// Iterate to next event.
-		TArray<USMEvent*> EventsThisTick;
-		Events.MultiFind(NextEventTick, EventsThisTick);
-		USMEvent* EventToBegin = EventsThisTick[0];
-		Events.RemoveSingle(NextEventTick, EventToBegin);
+		USMEvent* EventToBegin = Events.CreateConstIterator()->Value;
+		Events.Remove(NextEventTick);
 		if (Events.Num() > 0)
 		{
 			auto It = Events.CreateConstIterator();
@@ -55,6 +49,7 @@ void UStoryManager::Update(uint64 WorldTick)
 		}
 		else
 		{
+			UE_LOG(LogTemp, Warning, TEXT("Out of Events"));
 			NextEventTick = UINT64_MAX;
 		}
 
@@ -69,6 +64,7 @@ void UStoryManager::AddEvent(uint64 Tick, USMEvent* Event)
 	{
 		NextEventTick = Tick;
 	}
+	// Todo: Check for collision.
 
 	Events.Add(Tick, Event);
 }

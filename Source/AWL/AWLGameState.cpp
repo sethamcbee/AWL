@@ -5,6 +5,7 @@
 
 #include "FSexp.h"
 #include "Lot.h"
+#include "Person.h"
 #include "StoryManager.h"
 #include "TimeManager.h"
 
@@ -44,6 +45,10 @@ void AAWLGameState::BeginPlay()
 	LoadModules();
 
 	Generate();
+
+	FSexp Sexp;
+	ToSexp(Sexp);
+	Sexp.Save("C://AWLData/savegame.txt");
 }
 
 
@@ -106,6 +111,21 @@ void AAWLGameState::Generate()
 			Lot = GenerateEmptyLot(GetWorld(), WorldRand);
 		}
 	}
+}
+
+
+void AAWLGameState::ToSexp(FSexp& Out) const
+{
+	TArray<FSexp> ExpArray;
+
+	for (const auto* Person : People)
+	{
+		FSexp NewExp;
+		Person->ToSexp(NewExp);
+		ExpArray.Add(NewExp);
+	}
+
+	Out = ArrayToSexp(ExpArray);
 }
 
 

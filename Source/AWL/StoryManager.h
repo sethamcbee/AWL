@@ -32,7 +32,7 @@ public:
 	void AddEvent(uint64 Tick, USMEvent* Event);
 
 	//UPROPERTY(VisibleInstanceOnly)
-	TMultiMap<uint64, USMEvent*> Events;
+	TSortedMap<uint64, USMEvent*> Events;
 
 	UPROPERTY(VisibleInstanceOnly)
 	uint64 NextEventTick;
