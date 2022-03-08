@@ -5,6 +5,7 @@
 
 #include "AWLGameState.h"
 #include "AWLRand.h"
+#include "FSexp.h"
 #include "Person.h"
 
 
@@ -58,6 +59,17 @@ void ALot::BeginPlay()
 void ALot::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+
+void ALot::ToSexp(FSexp& Out) const
+{
+	TArray<FSexp> ExpArray;
+
+	FSexp SeedExp = UIntToSexp(LotSeed);
+	ExpArray.Add(SeedExp);
+
+	Out = ArrayToSexp(ExpArray);
 }
 
 

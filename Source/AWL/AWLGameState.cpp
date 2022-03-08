@@ -11,7 +11,7 @@
 
 #include <fstream>
 
-#include "Engine/EngineTypes.h" 
+#include "Engine/EngineTypes.h"
 #include "Misc/MessageDialog.h"
 
 
@@ -118,12 +118,23 @@ void AAWLGameState::ToSexp(FSexp& Out) const
 {
 	TArray<FSexp> ExpArray;
 
+	TArray<FSexp> PersonArray;
 	for (const auto* Person : People)
 	{
 		FSexp NewExp;
 		Person->ToSexp(NewExp);
-		ExpArray.Add(NewExp);
+		PersonArray.Add(NewExp);
 	}
+	ExpArray.Add(ArrayToSexp(PersonArray));
+
+	TArray<FSexp> LotArray;
+	for (const auto* Lot : Lots)
+	{
+		FSexp NewExp;
+		Lot->ToSexp(NewExp);
+		LotArray.Add(NewExp);
+	}
+	ExpArray.Add(ArrayToSexp(LotArray));
 
 	Out = ArrayToSexp(ExpArray);
 }

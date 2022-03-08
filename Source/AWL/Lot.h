@@ -8,6 +8,7 @@
 
 class APerson;
 class FAWLRand;
+struct FSexp;
 
 UCLASS()
 class AWL_API ALot : public AActor
@@ -25,6 +26,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void ToSexp(FSexp& Out) const;
 
 	bool IsOccupied() const;
 	
