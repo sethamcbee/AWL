@@ -81,7 +81,10 @@ bool ALot::IsOccupied() const
 
 ALot* GenerateEmptyLot(UWorld* World, FAWLRand& Rng)
 {
-	return World->SpawnActor<ALot>(ALot::StaticClass());
+	FTransform Transform;
+	ALot* Lot = World->SpawnActorDeferred<ALot>(ALot::StaticClass(), Transform);
+	Lot->FinishSpawning(Transform);
+	return Lot;
 }
 
 

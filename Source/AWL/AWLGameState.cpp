@@ -104,7 +104,7 @@ void AAWLGameState::Generate()
 	}
 
 	// Generate empty lots for remaining slots.
-	for (ALot* Lot : Lots)
+	for (ALot*& Lot : Lots)
 	{
 		if (!IsValid(Lot))
 		{
@@ -127,14 +127,19 @@ void AAWLGameState::ToSexp(FSexp& Out) const
 	}
 	ExpArray.Add(ArrayToSexp(PersonArray));
 
+	UE_LOG(LogTemp, Warning, TEXT("PersonArray done"));
+
 	TArray<FSexp> LotArray;
 	for (const auto* Lot : Lots)
 	{
 		FSexp NewExp;
 		Lot->ToSexp(NewExp);
 		LotArray.Add(NewExp);
+		UE_LOG(LogTemp, Warning, TEXT("Lot done"));
 	}
 	ExpArray.Add(ArrayToSexp(LotArray));
+
+	UE_LOG(LogTemp, Warning, TEXT("LotArray done"));
 
 	Out = ArrayToSexp(ExpArray);
 }
