@@ -7,7 +7,7 @@
 #include "Lot.generated.h"
 
 class APerson;
-class FAWLRand;
+struct FAWLRand;
 struct FSexp;
 
 UCLASS()

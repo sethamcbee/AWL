@@ -11,7 +11,7 @@
 #include "Person.generated.h"
 
 class ALot;
-class FAWLRand;
+struct FAWLRand;
 struct FSexp;
 
 UCLASS()

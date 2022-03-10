@@ -3,9 +3,12 @@
 #include "AWLRand.h"
 
 #include <cstdlib>
+#include <random>
+
+using GeneratorType = std::minstd_rand;
 
 FAWLRand GetRand(time(NULL));
-const int RandMax = std::minstd_rand::max();
+const int RandMax = GeneratorType::max();
 
 FAWLRand::FAWLRand() : State(0)
 {
@@ -21,22 +24,26 @@ FAWLRand::FAWLRand(int64 Seed) : State(Seed)
 
 uint64 FAWLRand::operator()()
 {
-	return State();
+	return LCG();
 }
 
 int64 FAWLRand::operator()(int64 Min, int64 Max)
 {
 	auto Range = Max - Min + 1;
-	auto R = State();
+	auto R = LCG();
 	return R / (RandMax / Range + 1) + Min;
 }
 
 uint64 FAWLRand::Peek()
 {
-	FAWLRand& Self = *this;
-	uint64 Ret = Self();
-	State.seed(Ret);
-	return Ret;
+	return State;
+}
+
+uint64 FAWLRand::LCG()
+{
+	GeneratorType Generator{ (unsigned int) State };
+	State = (uint64) Generator();
+	return State;
 }
 
 int64 FAWLRand::Avg(int64 Min, int64 Max, int N)

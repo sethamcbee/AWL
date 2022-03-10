@@ -2,16 +2,17 @@
 
 #pragma once
 
-#include <random>
-
 #include "CoreMinimal.h"
+#include "AWLRand.generated.h"
 
 /**
  * 
  */
-class AWL_API FAWLRand
+USTRUCT(BlueprintType)
+struct FAWLRand
 {
-public:
+	GENERATED_BODY()
+
 	FAWLRand();
 	~FAWLRand();
 
@@ -23,14 +24,16 @@ public:
 
 	uint64 Peek();
 
+	uint64 LCG();
+
 	// Generate number whose probability of being near the middle
 	// of the range increases as N increases.
 	int64 Avg(int64 Min, int64 Max, int N);
 
 	bool Try(float Chance);
 
-private:
-	std::minstd_rand State;
+	UPROPERTY(VisibleInstanceOnly)
+	uint64 State;
 };
 
 extern FAWLRand GetRand;

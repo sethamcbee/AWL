@@ -69,6 +69,7 @@ public:
 	UPROPERTY(VisibleInstanceOnly)
 	uint64 WorldSeed;
 
+	UPROPERTY(VisibleInstanceOnly)
 	FAWLRand WorldRand;
 	
 	UPROPERTY(VisibleInstanceOnly)
