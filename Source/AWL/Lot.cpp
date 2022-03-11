@@ -9,7 +9,6 @@
 #include "Person.h"
 
 
-// Sets default values
 ALot::ALot()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -27,7 +26,6 @@ ALot::ALot()
 }
 
 
-// Called when the game starts or when spawned
 void ALot::BeginPlay()
 {
 	static float Height = 20.0;
@@ -55,7 +53,6 @@ void ALot::BeginPlay()
 }
 
 
-// Called every frame
 void ALot::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
